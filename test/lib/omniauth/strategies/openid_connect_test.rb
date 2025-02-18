@@ -440,6 +440,7 @@ module OmniAuth
         request.stubs(:path).returns('')
 
         strategy.options.client_options.host = 'example.com'
+        strategy.options.client_options.configuration_endpoint = 'https://example.com/.well-known/openid-configuration'
         strategy.options.discovery = true
 
         issuer = stub('OpenIDConnect::Discovery::Issuer')
@@ -453,7 +454,7 @@ module OmniAuth
         config.stubs(:jwks_uri).returns('https://example.com/jwks')
         config.stubs(:jwks).returns(JSON::JWK::Set.new(jwks['keys']))
 
-        ::OpenIDConnect::Discovery::Provider::Config.stubs(:discover!).with('https://example.com/').returns(config)
+        ::OpenIDConnect::Discovery::Provider::Config.stubs(:discover!).with('https://example.com/.well-known/openid-configuration').returns(config)
 
         id_token = stub('OpenIDConnect::ResponseObject::IdToken')
         id_token.stubs(:raw_attributes).returns('sub' => 'sub', 'name' => 'name', 'email' => 'email')
