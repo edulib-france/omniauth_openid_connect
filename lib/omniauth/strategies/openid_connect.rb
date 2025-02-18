@@ -29,6 +29,7 @@ module OmniAuth
                               host: nil,
                               port: 443,
                               audience: nil,
+                              configuration_endpoint: nil,
                               authorization_endpoint: '/authorize',
                               token_endpoint: '/token',
                               userinfo_endpoint: '/userinfo',
@@ -110,7 +111,7 @@ module OmniAuth
       end
 
       def config
-        @config ||= ::OpenIDConnect::Discovery::Provider::Config.discover!(options.issuer)
+        @config ||= ::OpenIDConnect::Discovery::Provider::Config.discover!(client_options.configuration_endpoint || options.issuer)
       end
 
       def request_phase
